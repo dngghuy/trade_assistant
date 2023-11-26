@@ -64,7 +64,7 @@ class TCBSStockInfoGetter:
             if len(symbols) <= 10:
                 chunk_size = 1
             else:
-                chunk_size = len(symbols) // 400
+                chunk_size = max(1, len(symbols) // 400)
             process_input = [
                 (symbol, start, end)
                 for (symbol, start, end) in zip(symbols, start_dates, end_dates)

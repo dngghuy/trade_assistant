@@ -8,7 +8,7 @@ from trade_assistant.utils.utils import read_yml_config
 logger = logging.getLogger()
 
 
-class PostGresLocalCoinDatabase:
+class PostGresLocalDatabase:
     """
     Object for create, insert data, query data.
     Other tasks (drop/ delete/ update...) can be done using the main cursor.
