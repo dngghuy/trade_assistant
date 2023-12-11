@@ -23,6 +23,7 @@ class TimeZone:
 
 SRC_FOLDER = pathlib.Path(os.path.dirname(os.path.realpath(__file__)))
 CONFIG_FOLDER = SRC_FOLDER / 'configs'
+DATA_FOLDER = SRC_FOLDER / 'data'
 
 # Postgres config file
 POSTGRESQL_CONFIG_FILE = CONFIG_FOLDER / 'postgresql.yml'
