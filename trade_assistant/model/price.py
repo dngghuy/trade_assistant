@@ -9,6 +9,7 @@ class Price(AbstractModel):
     highest: float = 0
     currency: str = ''
     asset: str = ''
+    volume: float = 0
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

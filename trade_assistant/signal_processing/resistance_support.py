@@ -4,13 +4,16 @@ Resistance-Support Indicator
 import numpy as np
 import pandas as pd
 
+from trade_assistant.signal_processing.base import Indicator
 from sklearn.cluster import AgglomerativeClustering
 
 
-class SupportResistanceIndicator:
+class SupportResistanceIndicator(Indicator):
+    rolling_wave_length: int = None
+    num_clusters: int = None
+
     def __init__(self, rolling_wave_length: int, num_clusters: int):
-        self.rolling_wave_length = rolling_wave_length
-        self.num_clusters = num_clusters
+        super().__init__(rolling_wave_length=rolling_wave_length, num_clusters=num_clusters)
         self.list_supports = []
         self.list_resistances = []
 
@@ -52,6 +55,5 @@ class SupportResistanceIndicator:
         self.list_resistances.append(highs)
         self.list_supports.append(lows)
 
-    
 
 

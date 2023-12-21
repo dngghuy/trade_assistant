@@ -6,15 +6,15 @@ class Strategy(ABC):
     """
     Strategy object
     """
-    def __init__(self, name, id, asset: Asset):
+    def __init__(self, name: str, strategy_id: str, asset: Asset):
         """
         - strategy name
         - strategy id
         Link to asset
         """
         self.name = name
-        self.id = id
+        self.strategy_id = strategy_id
         self.asset = asset
 
-    def process(self):
+    def process(self, *args, **kwargs):
         raise NotImplementedError
