@@ -1,5 +1,6 @@
 from trade_assistant.model.abstract import AbstractModel
 from trade_assistant.model.order import Order
+from trade_assistant.model.consts import OrderType
 
 
 class Asset(AbstractModel):
@@ -15,6 +16,7 @@ class Asset(AbstractModel):
         self.current_asset = {
             'cash': init_wealth
         }
+        self.wealth_history = []
 
     def update(self, order: Order):
         """
@@ -23,13 +25,13 @@ class Asset(AbstractModel):
         """
         total_amount = order.quantity * order.price
         ticker = order.symbol
-        if order.type in [
-            Order.TYPE_SELL_LIMIT,
-            Order.TYPE_SELL_MARKET,
-            Order.TYPE_TAKE_PROFIT,
-            Order.TYPE_TAKE_PROFIT_LIMIT,
-            Order.TYPE_STOP_LOSS,
-            Order.TYPE_STOP_LOSS_LIMIT
+        if order.order_type in [
+            OrderType.TYPE_SELL_LIMIT.value,
+            OrderType.TYPE_SELL_MARKET.value,
+            OrderType.TYPE_TAKE_PROFIT.value,
+            OrderType.TYPE_TAKE_PROFIT_LIMIT.value,
+            OrderType.TYPE_STOP_LOSS.value,
+            OrderType.TYPE_STOP_LOSS_LIMIT.value
         ]:
             # Add to the current cash
             self.current_asset['cash'] += total_amount
@@ -45,3 +47,25 @@ class Asset(AbstractModel):
                 self.current_asset[ticker] = order.quantity
             else:
                 self.current_asset[ticker] += order.quantity
+
+    def _check_if_bid_feasible(self, order: Order):
+        """
+        Check whether the amount of money is enough to make the bid order
+        :param order:
+        :return:
+        """
+        total_cash_order = order.quantity * order.price
+        if total_cash_order > self.current_asset['cash']:
+            return False
+        return True
+
+    def _check_if_ask_feasible(self, order: Order):
+        """
+        Check whether the amount of stock is enough to make the ask order
+        :param order:
+        :return:
+        """
+        current_asset_hold = self.current_asset[order.symbol]
+        if current_asset_hold < order.quantity:
+            return False
+        return True
