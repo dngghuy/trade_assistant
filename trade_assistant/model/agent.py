@@ -1,8 +1,10 @@
 from trade_assistant.consts import DATA_FOLDER
 from .strategy import Strategy
 from .order import Order
+from .consts import OrderType
 import pandas as pd
 import os
+
 
 class Agent:
     def __init__(self, exchange, name, asset, strategy: Strategy):
@@ -26,7 +28,7 @@ class Agent:
         order = self.strategy.process()
 
         # handle amount here - update asset
-        if order.type == Order.HOLD:
+        if order.type == OrderType.HOLD:
             return
         else:
             self.asset.update(order)

@@ -1,0 +1,7 @@
+# Bot 
+
+- Telegram
+
+- Binance
+
+- Vnstock
