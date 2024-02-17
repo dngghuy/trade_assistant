@@ -6,5 +6,3 @@ from app.api import (
 router = APIRouter()
 
 router.include_router(api_healthcheck.router, tags=["healthcheck"], prefix="/healthcheck")
-
-

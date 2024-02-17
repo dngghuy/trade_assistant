@@ -1,5 +1,0 @@
-"""
-Telegram chatbot
-
--
-"""
