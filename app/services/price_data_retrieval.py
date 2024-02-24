@@ -72,7 +72,7 @@ class PriceDataRetriever:
         if input_data.interval == "5m":
             df = await self._retrieve_5m(input_data)
         elif input_data.interval == "eod":
-            df = self._retrieve_eod(input_data)
+            df = await self._retrieve_eod(input_data)
         else:
             raise ValueError(f"Unknown interval: {input_data.interval}")
         return StockPriceOutputData(
