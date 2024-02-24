@@ -4,6 +4,7 @@ from contextlib import closing
 import psycopg2
 
 from trade_assistant.utils.utils import read_yml_config
+from typing import Optional
 
 logger = logging.getLogger()
 
@@ -13,7 +14,7 @@ class PostGresLocalDatabase:
     Object for create, insert data, query data.
     Other tasks (drop/ delete/ update...) can be done using the main cursor.
     """
-    def __init__(self, db_config_path: str, table_name: str):
+    def __init__(self, db_config_path: str, table_name: Optional[str]):
         """
         Initilization
         :param db_config_path: path for connection to local db
