@@ -163,3 +163,4 @@ exploration/
 .idea/
 */configs/
 report/
+.DS_Store
