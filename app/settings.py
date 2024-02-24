@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     POSTGRES_DATABASE: str = os.getenv("POSTGRES_DATABASE", "")
     POSTGRES_USER: str = os.getenv("POSTGRES_USER", "")
     POSTGRES_PASSWORD: str = os.getenv("POSTGRES_PASSWORD", "")
-    POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", "")
+    POSTGRES_PORT: int = int(os.getenv("POSTGRES_PORT", "1234"))
 
 
 @lru_cache()  # get it from memory
