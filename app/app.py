@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from app.api.api_router import router
 from trade_assistant.database.db_pool import DataBasePool
-from trade_assistant.utils.utils import read_yml_config
-from trade_assistant.consts import POSTGRESQL_CONFIG_FILE
+from app.settings import get_settings
 
 
 def get_application() -> FastAPI:
@@ -17,13 +16,14 @@ def get_application() -> FastAPI:
 
 # also start postgrest for conn
 app = get_application()
+settings = get_settings()
 
 
 @app.on_event("startup")
 async def startup():
     """Initialize the application server."""
     # Create a database connection pool
-    await DataBasePool.setup(cfg=read_yml_config(POSTGRESQL_CONFIG_FILE))
+    await DataBasePool.setup(settings=settings)
 
 
 @app.on_event("shutdown")

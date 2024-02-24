@@ -1,6 +1,7 @@
 import asyncpg
 from asyncpg import Pool
 from typing import Optional
+from app.settings import Settings
 
 
 class UninitializedDatabasePoolError(Exception):
@@ -17,8 +18,15 @@ class DataBasePool:
     _db_pool: Optional[Pool] = None
 
     @classmethod
-    async def setup(cls, cfg: dict, timeout: Optional[float] = None):
-        cls._db_pool = await asyncpg.create_pool(**cfg)
+    async def setup(cls, settings: Settings, timeout: Optional[float] = None):
+        connection_kwargs = {
+            "host": settings.POSTGRES_HOST,
+            "port": settings.POSTGRES_PORT,
+            "user": settings.POSTGRES_USER,
+            "password": settings.POSTGRES_PASSWORD,
+            "database": settings.POSTGRES_DATABASE
+        }
+        cls._db_pool = await asyncpg.create_pool(**connection_kwargs)
         cls._timeout = timeout
 
     @classmethod
