@@ -55,5 +55,5 @@ class StrategyBacktester:
             env_dict[interval] = total_df
         self.environment = env_dict
 
-    def backtest(self):
+    def backtest(self, strategy: Str):
         pass

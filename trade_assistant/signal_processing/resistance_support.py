@@ -52,8 +52,8 @@ class SupportResistanceIndicator(Indicator):
         highs = sorted([i for i in list_waves if i > current_close])[:3]
         lows = sorted([i for i in list_waves if i < current_close], reverse=True)[:3]
 
-        self.list_resistances.append(highs)
-        self.list_supports.append(lows)
+        self.list_resistances.extend(highs)
+        self.list_supports.extend(lows)
 
 
 

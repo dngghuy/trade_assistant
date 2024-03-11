@@ -15,5 +15,5 @@ class MovingAverage(Indicator):
         self.list_moving_averages = []
 
     def process(self, input_df: pd.DataFrame):
-        moving_averages = input_df[self.col].rolling(self.rolling_wave_length).mean()
+        moving_averages = input_df[self.col].rolling(self.rolling_wave_length).mean().iloc[-1]
         self.list_moving_averages.append(moving_averages)
