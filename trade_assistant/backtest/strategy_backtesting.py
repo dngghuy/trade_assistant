@@ -14,7 +14,7 @@ coin_db_dict = {
 }
 
 
-class CoinBactester:
+class StrategyBacktester:
     def __init__(
             self,
             start_date: str,
@@ -55,5 +55,5 @@ class CoinBactester:
             env_dict[interval] = total_df
         self.environment = env_dict
 
-    def backtest(self):
+    def backtest(self, strategy: Str):
         pass

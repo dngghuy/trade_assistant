@@ -63,7 +63,12 @@ class SimpleADAStrategy(Strategy):
         """
         return self.asset.wealth * 0.1
 
-    def process(self, ada_snapshot: pd.DataFrame, symbol: Symbol) -> Optional[Order]:
+    def process(
+            self,
+            ada_snapshot: pd.DataFrame,
+            symbol: Symbol,
+            past_symbol: Symbol
+    ) -> Optional[Order]:
         """
         Process buy/ sell with single stock.
         For simplicity, work with one symbol only.
@@ -73,31 +78,43 @@ class SimpleADAStrategy(Strategy):
         support_resistance_finder = SupportResistanceIndicator(
             rolling_wave_length=200,
             num_clusters=6
-        ).process(ada_snapshot)
+        )
+        support_resistance_finder.process(ada_snapshot)
         moving_average_200_price = MovingAverage(
             rolling_wave_length=200,
             col='close'
-        ).process(ada_snapshot)
-        # moving_average_50_price = MovingAverage(
-        #     rolling_wave_length=50,
-        #     col='close'
-        # ).process(ada_snapshot)
+        )
+        moving_average_200_price.process(ada_snapshot)
         moving_average_10_vol = MovingAverage(
             rolling_wave_length=10,
             col='volume'
-        ).process(ada_snapshot)
-        is_stock_reaching_support = is_reaching_support(
-            support_resistance=support_resistance_finder.list_supports,
-            prev_price=symbol,
-            curr_price=symbol,
-            thresh=0.1
         )
-        is_stock_reaching_resistance = is_reaching_resistance(
-            support_resistance=support_resistance_finder.list_resistances,
-            prev_price=symbol,
-            curr_price=symbol,
-            thresh=0.1
-        )
+        moving_average_10_vol.process(ada_snapshot)
+
+        if len(support_resistance_finder.list_supports) == 0:
+            if past_symbol.current < symbol.current:
+                is_stock_reaching_support = True
+            else:
+                is_stock_reaching_support = False
+        else:
+            is_stock_reaching_support = is_reaching_support(
+                support_resistance=support_resistance_finder,
+                prev_price=past_symbol,
+                curr_price=symbol,
+                thresh=0.1
+            )
+        if len(support_resistance_finder.list_resistances) == 0:
+            if past_symbol.current >= symbol.current:
+                is_stock_reaching_resistance = True
+            else:
+                is_stock_reaching_resistance = False
+        else:
+            is_stock_reaching_resistance = is_reaching_resistance(
+                support_resistance=support_resistance_finder.list_resistances,
+                prev_price=past_symbol,
+                curr_price=symbol,
+                thresh=0.1
+            )
         is_stock_over_moving_average_200 = is_over_moving_average(
             moving_average=moving_average_200_price,
             price=symbol,
