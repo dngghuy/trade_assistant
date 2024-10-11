@@ -2,8 +2,8 @@
 This file contains the functions for calculating the performance metrics
 of a trading strategy.
 """
-# Object for calculating Sharpe Ratio
-import numpy as np
+from typing import Union
+
 import pandas as pd
 
 
@@ -20,5 +20,5 @@ class SharpeRatio(BaseMetricCalculation):
         super().__init__(interval)
         self.risk_free_rate = risk_free_rate
 
-    def calculate(self, returns: pd.DataFrame):
+    def calculate(self, returns: Union[pd.DataFrame, pd.Series]):
         return (self.interval ** 0.5)*(returns.mean() - self.risk_free_rate) / returns.std()
