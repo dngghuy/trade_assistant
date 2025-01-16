@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "trade-assistant"
+version = "0.1.0"
+description = "Trade assistant for stock and cryptocurrencies on limited assets."
+authors = ["Huy Dang <huygdng@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
